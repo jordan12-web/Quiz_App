@@ -24,11 +24,16 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _answerQuestion(int index) {
     //  final category = ModalRoute.of(context)!.settings.arguments as Category;
-    selectedIndex = index;
+    
+
     final Question currentQuestion = category.questions[currentIndex];
-    if (selectedIndex == currentQuestion.correctAnswer) {
+       setState(() {
+          selectedIndex = index;
+    if (index == currentQuestion.correctAnswer) {
       score++;
     }
+       });
+         
 
     Future.delayed(Duration(seconds: 3), () {
       if (currentIndex < category.questions.length - 1) {
