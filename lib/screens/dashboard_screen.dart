@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quizapp/constants/routes.dart';
 import 'package:quizapp/models/category.dart';
-import 'package:quizapp/models/sample_data.dart';
+import 'package:quizapp/models/data_store.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -40,9 +40,9 @@ class DashboardScreen extends StatelessWidget {
         ),
       ),
       body: ListView.builder(
-        itemCount: sampleCategories.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
-          final Category category = sampleCategories[index];
+          final Category category = categories[index];
           return Card(
             margin: EdgeInsets.all(10),
             child: ListTile(
