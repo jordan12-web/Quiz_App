@@ -23,19 +23,19 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void _answerQuestion(int index) {
-    //  final category = ModalRoute.of(context)!.settings.arguments as Category;
-    
+    // Prevent multiple taps
+    if (selectedIndex != null) return;
 
     final Question currentQuestion = category.questions[currentIndex];
-       setState(() {
-          selectedIndex = index;
-    if (index == currentQuestion.correctAnswer) {
-      score++;
-    }
-       });
-         
+    setState(() {
+      selectedIndex = index;
+      if (index == currentQuestion.correctAnswer) {
+        score++;
+      }
+    });
 
-    Future.delayed(Duration(seconds: 3), () {
+    // Delay so user sees feedback
+    Future.delayed(const Duration(seconds: 1), () {
       if (currentIndex < category.questions.length - 1) {
         setState(() {
           currentIndex++;
@@ -45,7 +45,11 @@ class _QuizScreenState extends State<QuizScreen> {
         Navigator.pushReplacementNamed(
           context,
           Resultroute,
-          arguments: {'score': score, 'total': category.questions.length},
+          arguments: {
+            'score': score,
+            'total': category.questions.length,
+            'category': category,
+          },
         );
       }
     });
@@ -90,8 +94,11 @@ class _QuizScreenState extends State<QuizScreen> {
               return Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: color),
-                  onPressed:selectedIndex == null ? () => _answerQuestion(idx):null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: color ?? Colors.white,
+                    foregroundColor: Colors.black,
+                  ),
+                  onPressed: () => _answerQuestion(idx),
                   child: Text(option),
                 ),
               );

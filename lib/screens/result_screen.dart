@@ -33,19 +33,7 @@ return "Don't give up, let's go again";
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, Dashboardroute);
-              },
-              child: Text('Back to Dashboard'),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Retry Quiz"),
-            ),
+           
 
            ElevatedButton(
                 onPressed: () {

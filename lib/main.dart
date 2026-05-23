@@ -18,7 +18,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Quiz App',
-      theme: ThemeData.light(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.grey[100],
+        textTheme: ThemeData.light().textTheme.copyWith(
+          bodyMedium: TextStyle(fontSize: 16, color: Colors.black87),
+          titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+            textStyle: TextStyle(fontSize: 16),
+          ),
+        ),
+      ),
+
       initialRoute: Splashroute,
       routes: {
         Splashroute: (context) => SplashScreen(),
