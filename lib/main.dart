@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:quizapp/models/category.dart';
+import 'package:quizapp/models/question.dart';
 import 'package:quizapp/screens/admin_screen.dart';
 import 'package:quizapp/screens/dashboard_screen.dart';
 import 'package:quizapp/screens/login_screen.dart';
@@ -7,7 +11,13 @@ import 'package:quizapp/screens/result_screen.dart';
 import 'package:quizapp/screens/splash_screen.dart';
 import 'package:quizapp/constants/routes.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(CategoryAdapter());
+  Hive.registerAdapter(QuestionAdapter());
+  await Hive.openBox<Category>('categories');
+
   runApp(const MyApp());
 }
 

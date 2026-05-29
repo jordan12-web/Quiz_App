@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:quizapp/models/category.dart';
 import 'package:quizapp/models/data_store.dart';
 import 'package:quizapp/models/question.dart';
@@ -47,17 +48,16 @@ class _AdminScreenState extends State<AdminScreen> {
       );
       return;
     }
-    setState(() {
-      categories.add(
-        Category(
+    final newCategory = Category(
           id: uuid.v4(),
           title: title,
           description: description,
           accent: '',
           questions: [],
-        ),
-      );
-    });
+        );
+   
+    final box = Hive.box<Category>('categories');
+    box.add(newCategory);
 
     ScaffoldMessenger.of(
       context,
@@ -89,16 +89,18 @@ class _AdminScreenState extends State<AdminScreen> {
       return;
     }
 
-    setState(() {
-      selectedCategory!.questions.add(
-        Question(
+      final newQuestion = Question(
           id: uuid.v4(),
           text: text,
           options: [option1, option2, option3, option4],
           correctAnswer: correctIndex!,
-        ),
-      );
-    });
+        );
+
+        final box = Hive.box('categories');
+        final index = box.values.toList().indexOf(selectedCategory);
+        final updatedCategory = Category(id: selectedCategory!.id, title:selectedCategory!.title, description:selectedCategory!.description, accent:selectedCategory!.accent, questions: [...selectedCategory!.questions, newQuestion]);
+
+        box.putAt(index, updatedCategory);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -113,6 +115,10 @@ class _AdminScreenState extends State<AdminScreen> {
     _option4Controller.clear();
     _option2Controller.clear();
     _correctAnswerController.clear();
+
+    setState(() {
+      selectedCategory = updatedCategory;
+    });
   }
 
   @override
